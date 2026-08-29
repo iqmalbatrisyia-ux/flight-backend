@@ -12,6 +12,10 @@ app = FastAPI(title="Flight Delay Dashboard API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.ALLOWED_ORIGINS,
+    # Also accept any vercel.app URL automatically, regardless of the
+    # FLIGHT_ALLOWED_ORIGINS env var. This means the frontend just works
+    # once deployed to Vercel, no exact string to type/match/redeploy.
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
