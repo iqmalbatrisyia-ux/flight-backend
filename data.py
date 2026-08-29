@@ -1,3 +1,4 @@
+import gc
 import pandas as pd
 from functools import lru_cache
 import config
@@ -40,8 +41,9 @@ def load_predictions() -> pd.DataFrame:
     df["op_unique_carrier"] = df["op_unique_carrier"].astype("category")
 
     df["residual"] = df["predicted_arr_delay"] - df["actual_arr_delay"]
-    df["month_name"] = df["month"].map(config.MONTH_NAMES)
-    df["day_name"] = df["day_of_week"].map(config.DAY_NAMES)
+    df["month_name"] = df["month"].map(config.MONTH_NAMES).astype("category")
+    df["day_name"] = df["day_of_week"].map(config.DAY_NAMES).astype("category")
+    gc.collect()
     return df
 
 
